@@ -24,7 +24,7 @@
   const BIRD_X = 245;
   const PIPE_W = 88;
   const GAP = 166;
-  const BOOST_TIME = 0.72;
+  const BOOST_TIME = 2.72;
   const COOLDOWN = 2.6;
   const GRAVITY = 1180;
   const FLAP_POWER = -405;
@@ -133,8 +133,11 @@
     bird.y += bird.vy * dt;
     bird.tilt = Math.max(-0.48, Math.min(0.9, bird.vy / 650));
     bird.wing = Math.max(0, bird.wing - dt * 3.5);
-    boostLeft = Math.max(0, boostLeft - dt);
-    cooldown = Math.max(0, cooldown - dt);
+    if (boostLeft > 0) {
+      boostLeft = Math.max(0, boostLeft - dt);
+    } else {
+      cooldown = Math.max(0, cooldown - dt);
+    }
 
     const boosted = boostLeft > 0;
     const speed = boosted ? 315 : 220;
@@ -187,9 +190,9 @@
     drawSky();
     drawPipes();
     drawGround();
+    if (state === "running" && boostLeft > 0) drawSpeedLines();
     drawRival();
     drawBird();
-    if (state === "running" && boostLeft > 0) drawSpeedLines();
     ctx.restore();
   }
 
@@ -324,10 +327,18 @@
 
   function drawSpeedLines() {
     ctx.save();
-    ctx.globalAlpha = 0.45; ctx.strokeStyle = "#f1d8ff"; ctx.lineWidth = 3;
+    ctx.globalAlpha = 0.42;
+    ctx.strokeStyle = "#f1d8ff";
+    ctx.lineWidth = 3;
+    ctx.lineCap = "round";
     for (let i = 0; i < 7; i++) {
-      const y = 130 + ((i * 61 + time * 180) % 300);
-      ctx.beginPath(); ctx.moveTo(40, y); ctx.lineTo(150 + (i % 3) * 25, y); ctx.stroke();
+      const y = bird.y - 55 + ((i * 23 + time * 150) % 110);
+      const x = 105 + ((i * 17 + time * 95) % 65);
+      const length = 32 + (i % 3) * 12;
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.lineTo(Math.min(BIRD_X - 25, x + length), y);
+      ctx.stroke();
     }
     ctx.restore();
   }
