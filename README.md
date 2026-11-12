@@ -9,12 +9,12 @@ Download or clone the repository, then open `index.html` in a modern browser. No
 ## Controls
 
 - **Space**, **Up Arrow**, or click/tap the playfield: flap upward.
-- **W**: short speed boost, followed by a cooldown.
+- **W**: a 2.72-second speed boost, followed by a 2.6-second cooldown.
 - **FLAP** and **BOOST** buttons are available on narrow screens.
 - **Enter** or **R**: restart after a round ends.
 
 ## The big change
 
-The chase meter rises while flying normally. A boost temporarily speeds up the scrolling world and pushes the chaser back. If the meter reaches 100%, the rival catches you. Hitting a pipe or the ground also ends the run.
+The chase meter rises while flying normally. A 2.72-second boost temporarily speeds up the scrolling world and pushes the chaser back, then takes 2.6 seconds to recharge. If the meter reaches 100%, the rival catches you. Hitting a pipe or the ground also ends the run.
 
 All visuals use original Canvas shapes; there are no copied characters or game assets.
