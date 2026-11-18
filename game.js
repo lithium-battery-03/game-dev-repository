@@ -335,7 +335,6 @@
 
   function drawBird() { drawBirdShape(BIRD_X, bird.y, 1, false, bird.wing); }
   function drawRival() {
-    drawBirdShape(rival.x, rival.y, 0.88, true, rival.wing);
     const danger = Math.max(0, (chase - 60) / 40);
     if (state === "running" && danger > 0) {
       ctx.save();
@@ -347,6 +346,7 @@
       ctx.fill();
       ctx.restore();
     }
+    drawBirdShape(rival.x, rival.y, 0.88, true, rival.wing);
   }
 
   function drawSpeedLines() {
