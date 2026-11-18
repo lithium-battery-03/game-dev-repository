@@ -70,3 +70,21 @@ footer { margin-top:23px; color:#9c89a8; text-align:center; font:10px monospace;
   .how-to-play p { font-size:12px; }
   .overlay-card { padding:19px 17px 16px; }
 }
+
+/* Victory screen: make a successful escape feel distinct from a loss. */
+.overlay-card.victory {
+  border-color: rgba(255, 218, 151, .72);
+  box-shadow: 0 20px 75px rgba(48, 25, 49, .28), 0 0 34px rgba(255, 203, 127, .18);
+}
+.overlay-card.victory h2 { color: #ffdda2; }
+.overlay-card.victory::after {
+  content: "✦   ✧   ✦";
+  display: block;
+  margin-top: 15px;
+  color: #ffd28d;
+  font-size: 19px;
+  letter-spacing: .3em;
+}
+.overlay-card.victory .primary-button {
+  background: linear-gradient(100deg, #ffe3a2, #ffad83);
+}
