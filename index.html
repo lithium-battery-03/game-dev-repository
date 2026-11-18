@@ -15,10 +15,10 @@
     </header>
     <section class="game-card" aria-label="Flappy Chase game">
       <div class="hud">
-        <div class="hud-stat"><span class="stat-label">DISTANCE</span><strong id="score">0</strong></div>
+        <div class="hud-stat"><span class="stat-label">PIPES CLEARED</span><strong id="score">0 / 15</strong></div>
         <div class="chase-panel">
-          <div class="bar-heading"><span class="stat-label">CHASER DISTANCE</span><strong id="chase-status">CLEAR</strong></div>
-          <div class="meter-track" role="progressbar" aria-label="Chaser distance meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="chase-meter"><div class="meter-fill" id="chase-fill"></div></div>
+          <div class="bar-heading"><span class="stat-label">RIVAL PROXIMITY</span><strong id="chase-status">CLEAR</strong></div>
+          <div class="meter-track" role="progressbar" aria-label="Rival proximity meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="chase-meter"><div class="meter-fill" id="chase-fill"></div></div>
         </div>
         <div class="boost-panel">
           <div class="bar-heading"><span class="stat-label">W BOOST</span><strong id="boost-status">READY</strong></div>
@@ -28,25 +28,25 @@
       <div class="canvas-wrap">
         <canvas id="game" width="960" height="540" aria-label="A bird flies through sunset skies, avoiding pipes while escaping a chasing bird."></canvas>
         <div class="screen-overlay" id="overlay">
-          <div class="overlay-card">
+          <div class="overlay-card" id="overlay-card">
             <p class="eyebrow" id="overlay-kicker">DON'T LET IT CATCH YOU</p>
             <h2 id="overlay-title">Take flight.</h2>
-            <p id="overlay-copy">Flap through the pipes and use quick boosts to keep the bird behind you.</p>
+            <p id="overlay-copy">Clear 15 pipes to escape. Flap through the gaps, then press W to shove the rival backward when it gets too close.</p>
             <button class="primary-button" id="start-button" type="button">Start flying</button>
-            <p class="overlay-hint">SPACE / CLICK to flap <span>•</span> W to boost</p>
+            <p class="overlay-hint">SPACE / CLICK to flap <span>•</span> W to shove rival back</p>
           </div>
         </div>
       </div>
       <div class="control-row">
         <div class="control-hint"><kbd>SPACE</kbd><span>Flap upward</span></div>
-        <div class="control-hint"><kbd>W</kbd><span>Quick speed boost</span></div>
+        <div class="control-hint"><kbd>W</kbd><span>Shove rival back</span></div>
         <button id="flap-button" class="touch-button flap-button" type="button" aria-label="Flap">FLAP</button>
         <button id="boost-button" class="touch-button boost-button" type="button" aria-label="Use speed boost">BOOST</button>
       </div>
     </section>
     <section class="how-to-play">
       <div class="section-mark">✦</div>
-      <div><h2>Stay ahead of the chase</h2><p>Tap <strong>Space</strong> or click to flap over and under the pipes. Press <strong>W</strong> for a short burst of speed. Boosts recharge after a brief cooldown, and each boost pushes the chaser farther back. Let the chase meter fill up and it's game over.</p></div>
+      <div><h2>Stay ahead of the chase</h2><p>Clear <strong>15 pipes</strong> to win. Tap <strong>Space</strong> or click to flap through the gaps. Press <strong>W</strong> to shove the rival backward and gain breathing room. The rival closes in faster as your pipe count rises, so save boosts for dangerous moments. If the rival reaches you or you hit an obstacle, the round ends.</p></div>
     </section>
     <footer>Made with original shapes · No images or game assets required</footer>
   </main>
