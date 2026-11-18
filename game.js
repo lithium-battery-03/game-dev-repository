@@ -5,6 +5,7 @@
   const canvas = $("game");
   const ctx = canvas.getContext("2d");
   const overlay = $("overlay");
+  const overlayCard = $("overlay-card");
   const startButton = $("start-button");
   const overlayKicker = $("overlay-kicker");
   const overlayTitle = $("overlay-title");
@@ -24,8 +25,11 @@
   const BIRD_X = 245;
   const PIPE_W = 88;
   const GAP = 166;
+  const GOAL = 15;
   const BOOST_TIME = 2.72;
   const COOLDOWN = 2.6;
+  const BOOST_KNOCKBACK = 18;
+  const BOOST_CHASE_DECAY = 3.5;
   const GRAVITY = 1180;
   const FLAP_POWER = -405;
 
@@ -34,13 +38,13 @@
   let time = 0;
   let score = 0;
   let best = 0;
-  let chase = 12;
+  let chase = 18;
   let boostLeft = 0;
   let cooldown = 0;
   let pipeClock = 0;
   let pipes = [];
   let bird = { y: 260, vy: 0, tilt: 0, wing: 0 };
-  let rival = { x: 74, y: 286, wing: 0 };
+  let rival = { x: 62, y: 286, wing: 0 };
   let shake = 0;
 
   try { best = Number(localStorage.getItem("flappyChaseBest") || 0); } catch (_) {}
@@ -48,14 +52,14 @@
 
   function reset() {
     score = 0;
-    chase = 12;
+    chase = 18;
     boostLeft = 0;
     cooldown = 0;
     pipeClock = 0.9;
     pipes = [];
     bird = { y: 260, vy: 0, tilt: 0, wing: 0 };
-    rival = { x: 74, y: 286, wing: 0 };
-    scoreLabel.textContent = "0";
+    rival = { x: 62, y: 286, wing: 0 };
+    scoreLabel.textContent = "0 / " + GOAL;
     updateBars();
   }
 
@@ -63,6 +67,7 @@
     if (state === "running") return;
     reset();
     state = "running";
+    overlayCard.classList.remove("victory");
     overlay.classList.add("hidden");
     flap();
   }
@@ -76,12 +81,16 @@
       bestLabel.textContent = String(best);
       try { localStorage.setItem("flappyChaseBest", String(best)); } catch (_) {}
     }
-    overlayKicker.textContent = reason === "chase" ? "THE CHASER CAUGHT UP" : "FLIGHT OVER";
-    overlayTitle.textContent = reason === "chase" ? "Too close!" : "Nice try!";
-    overlayCopy.textContent = reason === "chase"
-      ? "The rival bird caught you. You made it " + score + " pipe" + (score === 1 ? "" : "s") + " through."
-      : "You made it " + score + " pipe" + (score === 1 ? "" : "s") + " through. Give it another shot!";
-    startButton.textContent = "Fly again";
+    const won = reason === "win";
+    overlayCard.classList.toggle("victory", won);
+    overlayKicker.textContent = won ? "YOU OUTRAN THE CHASER" : reason === "chase" ? "THE CHASER CAUGHT UP" : "FLIGHT OVER";
+    overlayTitle.textContent = won ? "Flight complete!" : reason === "chase" ? "Too close!" : "Nice try!";
+    overlayCopy.textContent = won
+      ? "You cleared all " + GOAL + " pipes and escaped the rival. What a getaway!"
+      : reason === "chase"
+        ? "The rival caught you after " + score + " pipe" + (score === 1 ? "" : "s") + ". Try saving your boosts for the danger zone."
+        : "You made it through " + score + " of " + GOAL + " pipes. Give it another shot!";
+    startButton.textContent = won ? "Play again" : "Try again";
     overlay.classList.remove("hidden");
   }
 
@@ -99,6 +108,8 @@
     if (state !== "running" || cooldown > 0 || boostLeft > 0) return;
     boostLeft = BOOST_TIME;
     cooldown = COOLDOWN;
+    chase = Math.max(0, chase - BOOST_KNOCKBACK);
+    rival.x = 62 + chase * 1.65;
     updateBars();
   }
 
@@ -112,8 +123,8 @@
     const chasePct = Math.round(chase);
     chaseFill.style.width = chasePct + "%";
     chaseMeter.setAttribute("aria-valuenow", String(chasePct));
-    chaseStatus.textContent = chase < 35 ? "CLEAR" : chase < 65 ? "CLOSING IN" : chase < 90 ? "DANGER" : "INCOMING";
-    chaseStatus.style.color = chase >= 65 ? "#ff8b83" : "#ffca78";
+    chaseStatus.textContent = chase < 30 ? "CLEAR" : chase < 55 ? "CLOSING IN" : chase < 80 ? "DANGER" : "TOO CLOSE";
+    chaseStatus.style.color = chase >= 55 ? "#ff777d" : "#ffca78";
 
     const charge = cooldown <= 0 ? 100 : Math.max(0, 100 * (1 - cooldown / COOLDOWN));
     boostFill.style.width = charge + "%";
@@ -141,8 +152,10 @@
 
     const boosted = boostLeft > 0;
     const speed = boosted ? 315 : 220;
-    chase = Math.max(0, Math.min(100, chase + (boosted ? -36 : 12) * dt));
-    rival.x = 74 + chase * 1.05;
+    const chaseRate = 8 + Math.min(score, GOAL) * 0.35;
+    const chaseChange = boosted ? -BOOST_CHASE_DECAY : chaseRate;
+    chase = Math.max(0, Math.min(100, chase + chaseChange * dt));
+    rival.x = 62 + chase * 1.65;
     rival.y += (bird.y + 9 - rival.y) * Math.min(1, dt * 2.6);
     rival.wing = Math.sin(time * 17) * 0.95;
 
@@ -156,7 +169,11 @@
       if (!pipe.passed && pipe.x + PIPE_W < BIRD_X) {
         pipe.passed = true;
         score += 1;
-        scoreLabel.textContent = String(score);
+        scoreLabel.textContent = score + " / " + GOAL;
+        if (score >= GOAL) {
+          finish("win");
+          return;
+        }
       }
     }
     pipes = pipes.filter(pipe => pipe.x + PIPE_W > -20);
@@ -319,9 +336,16 @@
   function drawBird() { drawBirdShape(BIRD_X, bird.y, 1, false, bird.wing); }
   function drawRival() {
     drawBirdShape(rival.x, rival.y, 0.88, true, rival.wing);
-    if (state === "running" && chase > 70) {
-      ctx.fillStyle = "rgba(255,119,112,.16)";
-      ctx.beginPath(); ctx.arc(rival.x, rival.y, 31, 0, Math.PI * 2); ctx.fill();
+    const danger = Math.max(0, (chase - 60) / 40);
+    if (state === "running" && danger > 0) {
+      ctx.save();
+      const pulse = 0.12 + danger * 0.2 + Math.sin(time * 12) * 0.035;
+      ctx.globalAlpha = pulse;
+      ctx.fillStyle = "#ff667b";
+      ctx.beginPath();
+      ctx.arc(rival.x, rival.y, 27 + danger * 13, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
     }
   }
 
