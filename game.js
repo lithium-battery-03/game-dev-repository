@@ -55,6 +55,7 @@
     chase = 18;
     boostLeft = 0;
     cooldown = 0;
+    shake = 0;
     pipeClock = 0.9;
     pipes = [];
     bird = { y: 260, vy: 0, tilt: 0, wing: 0 };
@@ -137,6 +138,7 @@
     if (state !== "running") {
       if (state === "ready") bird.y = 260 + Math.sin(time * 2.3) * 8;
       rival.wing = Math.sin(time * 12) * 0.8;
+      if (shake > 0) shake = Math.max(0, shake - dt);
       return;
     }
 
