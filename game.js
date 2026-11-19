@@ -27,7 +27,7 @@
   const GAP = 166;
   const GOAL = 15;
   const BOOST_TIME = 2.72;
-  const COOLDOWN = 2.6;
+  const COOLDOWN = 2.2;
   const BOOST_KNOCKBACK = 18;
   const BOOST_CHASE_DECAY = 3.5;
   const GRAVITY = 1180;
@@ -83,6 +83,10 @@
       try { localStorage.setItem("flappyChaseBest", String(best)); } catch (_) {}
     }
     const won = reason === "win";
+    boostLeft = 0;
+    cooldown = 0;
+    updateBars();
+    boostStatus.textContent = won ? "ESCAPED" : "ROUND OVER";
     overlayCard.classList.toggle("victory", won);
     overlayKicker.textContent = won ? "YOU OUTRAN THE CHASER" : reason === "chase" ? "THE CHASER CAUGHT UP" : "FLIGHT OVER";
     overlayTitle.textContent = won ? "Flight complete!" : reason === "chase" ? "Too close!" : "Nice try!";
@@ -153,8 +157,8 @@
     }
 
     const boosted = boostLeft > 0;
-    const speed = boosted ? 315 : 220;
-    const chaseRate = 8 + Math.min(score, GOAL) * 0.35;
+    const speed = boosted ? 350 : 220;
+    const chaseRate = 9 + Math.min(score, GOAL) * 0.4;
     const chaseChange = boosted ? -BOOST_CHASE_DECAY : chaseRate;
     chase = Math.max(0, Math.min(100, chase + chaseChange * dt));
     rival.x = 62 + chase * 1.65;
