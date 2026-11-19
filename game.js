@@ -134,7 +134,7 @@
     const charge = cooldown <= 0 ? 100 : Math.max(0, 100 * (1 - cooldown / COOLDOWN));
     boostFill.style.width = charge + "%";
     boostMeter.setAttribute("aria-valuenow", String(Math.round(charge)));
-    boostStatus.textContent = boostLeft > 0 ? "BOOSTING!" : cooldown > 0 ? cooldown.toFixed(1) + "s" : "READY";
+    boostStatus.textContent = boostLeft > 0 ? "BOOSTING!" : cooldown > 0 ? (Math.ceil(cooldown * 10) / 10).toFixed(1) + "s" : "READY";
   }
 
   function update(dt) {
