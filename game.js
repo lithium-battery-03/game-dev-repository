@@ -25,7 +25,7 @@
   const BIRD_X = 245;
   const PIPE_W = 88;
   const GAP = 166;
-  const GOAL = 15;
+  const GOAL = 30;
   const BOOST_TIME = 2.72;
   const COOLDOWN = 2.2;
   const BOOST_KNOCKBACK = 18;
