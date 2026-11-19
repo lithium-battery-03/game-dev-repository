@@ -4,7 +4,7 @@ A small original browser game inspired by flap-and-dodge games. A rival bird cha
 
 ## Goal
 
-Clear **15 pipes** to win. Hitting a pipe or the ground ends the run, and the chaser catching up also ends the run.
+Clear **30 pipes** to win. Hitting a pipe or the ground ends the run, and the chaser catching up also ends the run.
 
 ## Run it
 
@@ -19,7 +19,7 @@ Download or clone the repository, then open `index.html` in a modern browser. No
 
 ## The big change
 
-The chase meter rises while flying normally, and its fill rate gradually increases as you clear more pipes (from 9 to 15 percentage points per second across the round). Pressing W shoves the rival backward immediately and continues to push it back during the boost. Time boosts carefully: the rival catches you if the meter reaches 100%.
+The chase meter rises while flying normally, and its fill rate gradually increases as you clear more pipes (from 9 to 21 percentage points per second across the round). Pressing W shoves the rival backward immediately and continues to push it back during the boost. Time boosts carefully: the rival catches you if the meter reaches 100%.
 
 All visuals use original Canvas shapes; there are no copied characters or game assets.
 
@@ -29,7 +29,7 @@ All visuals use original Canvas shapes; there are no copied characters or game a
 1. Start the round with **Start flying**.
 2. Use **Space** or click to flap; check that the bird rises.
 3. Press **W** and watch the rival jump backward and the chase meter drop. Wait for the cooldown before boosting again.
-4. Win by clearing 15 pipes, or lose by hitting a pipe / ground or allowing the chase meter to reach 100%.
+4. Win by clearing 30 pipes, or lose by hitting a pipe / ground or allowing the chase meter to reach 100%.
 5. Use **Play again / Try again**, or press **Enter**, to restart and confirm the pipe count resets.
 
 ## Classmate playtest
