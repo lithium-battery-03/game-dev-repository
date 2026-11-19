@@ -158,7 +158,7 @@
 
     const boosted = boostLeft > 0;
     const speed = boosted ? 350 : 220;
-    const chaseRate = 9 + Math.min(score, GOAL) * 0.4;
+    const chaseRate = 9 + Math.min(score, GOAL) * 0.2;
     const chaseChange = boosted ? -BOOST_CHASE_DECAY : chaseRate;
     chase = Math.max(0, Math.min(100, chase + chaseChange * dt));
     rival.x = 62 + chase * 1.65;
