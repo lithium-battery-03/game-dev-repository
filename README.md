@@ -13,13 +13,13 @@ Download or clone the repository, then open `index.html` in a modern browser. No
 ## Controls
 
 - **Space**, **Up Arrow**, or click/tap the playfield: flap upward.
-- **W**: a 2.72-second speed boost that immediately pushes the rival backward, then gradually eases the chase pressure during the boost. The boost has a 2.6-second cooldown after it ends.
+- **W**: a 2.72-second speed boost that immediately pushes the rival backward, then gradually eases the chase pressure during the boost. The boost has a 2.2-second cooldown after it ends, and the pipe scroll speed increases from 220 to 350 during the boost.
 - **FLAP** and **BOOST** buttons are available on narrow screens.
 - **Enter** or **R**: restart after a round ends.
 
 ## The big change
 
-The chase meter rises while flying normally, and its fill rate gradually increases as you clear more pipes. Pressing W shoves the rival backward immediately and continues to push it back during the boost. Time boosts carefully: the rival catches you if the meter reaches 100%.
+The chase meter rises while flying normally, and its fill rate gradually increases as you clear more pipes (from 9 to 15 points per second across the round). Pressing W shoves the rival backward immediately and continues to push it back during the boost. Time boosts carefully: the rival catches you if the meter reaches 100%.
 
 All visuals use original Canvas shapes; there are no copied characters or game assets.
 
